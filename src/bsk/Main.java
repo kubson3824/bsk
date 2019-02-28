@@ -4,11 +4,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String inputString = "HEREISASECRETMESSAGEENCIPHEREDBYTRANSPOSITION";
-        String key = "CONVENIENCE";
+        String inputString = "CRYPTOGRAPHY";
+//        String key = "CONVENIENCE";
 
         String outputString;
-        outputString = Zadanko3.encodeFirst(inputString, key);
+        outputString = Zadanko4.encode(inputString, 3);
 
         System.out.println(outputString);
 
