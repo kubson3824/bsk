@@ -6,14 +6,13 @@ import java.util.Map;
 
 public class Zadanko3 {
 
-    public static String encode(String inputString, String key) {
+    public static String encodeFirst(String inputString, String key) {
         String outputString = new String();
         Map<Integer, Integer> code = sequenceFromKey(key);
         for (int i = 0; i < code.size(); i++) {
             for (int j = 0; i + (j * code.size()) < inputString.length(); j++) {
                 outputString += inputString.charAt(code.get(i) + (j * code.size()));
             }
-            outputString += " ";
         }
         return outputString;
     }
