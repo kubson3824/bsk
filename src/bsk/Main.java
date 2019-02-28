@@ -8,7 +8,7 @@ public class Main {
         String key = "CONVENIENCE";
 
         String outputString;
-        outputString = Zadanko3.encode(inputString, key);
+        outputString = Zadanko3.encodeFirst(inputString, key);
 
         System.out.println(outputString);
 
