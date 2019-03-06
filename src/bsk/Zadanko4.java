@@ -3,7 +3,6 @@ package bsk;
 public class Zadanko4 {
 
     public static String encode(String inputString, Integer offset) {
-        //TODO Nie ten przyklad zrobilem xD
         Integer n = 26;
         String result = new String();
         for (int i = 0; i < inputString.length(); i++) {
