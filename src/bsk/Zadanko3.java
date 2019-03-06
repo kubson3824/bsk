@@ -9,14 +9,17 @@ import java.util.Map;
 public class Zadanko3 {
 
     public static String encode2B(String inputString, String key) {
-        String outputString = new String();
+        StringBuilder outputString = new StringBuilder();
         Map<Integer, Integer> code = sequenceFromKey(key);
         for (int i = 0; i < code.size(); i++) {
             for (int j = 0; i + (j * code.size()) < inputString.length(); j++) {
-                outputString += inputString.charAt(code.get(i) + (j * code.size()));
+                if (code.get(i) + j * code.size() >= inputString.length()) {
+                    continue;
+                }
+                outputString.append(inputString.charAt(code.get(i) + (j * code.size())));
             }
         }
-        return outputString;
+        return outputString.toString();
     }
 
     private static Map<Integer, Integer> sequenceFromKey(String key) {
