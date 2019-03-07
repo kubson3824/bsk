@@ -7,11 +7,11 @@ public class Main {
 //        String inputString = "CRYPTOGRAPHY";
 //        String key = "CONVENIENCE";
 
-        String inputString = "CRYPTOGRAPHY";
-        String key = "BREAKBREAKBR";
+        String inputString = "ALAMAKOTA";
+        String key = "ALA";
 
         String outputString;
-        outputString = Zadanko4.encode(inputString, 1, 1);
+        outputString = Zadanko5.encode(inputString, key);
 
         System.out.println(outputString);
 
