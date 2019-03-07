@@ -11,7 +11,7 @@ public class Main {
         String key = "BREAKBREAKBR";
 
         String outputString;
-        outputString = Zadanko5.encode(inputString, key);
+        outputString = Zadanko4.encode(inputString, 1, 1);
 
         System.out.println(outputString);
 
