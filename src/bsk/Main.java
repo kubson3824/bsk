@@ -20,5 +20,8 @@ public class Main {
 
      //Zadanko1.saveToFile();
     //Zadanko2.saveToFile();
+    //Zadanko3.saveToFile();
+    //Zadanko4.saveToFile();
+    Zadanko5.saveToFile();
     }
 }

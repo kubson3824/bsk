@@ -1,10 +1,8 @@
 package bsk;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class Zadanko3 {
 
@@ -114,4 +112,43 @@ public class Zadanko3 {
 
         return outputString;
     }
+
+    public static void saveToFile(){
+        String key="";
+        String inputString="";
+        String outputString="";
+        String outputString2="";
+
+        File inputFile = new File("src/bsk/results/In03.txt");
+        File outputFile = new File("src/bsk/results/Out03.txt");
+        File outputFile2 = new File("src/bsk/results/Out03v2.txt");
+
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFile));
+            key = bufferedReader.readLine();
+            inputString=bufferedReader.readLine();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+        outputString=encode2B(inputString, key);
+        outputString2=encode2C(inputString,key);
+
+        try {
+            FileWriter fileWriter = new FileWriter(outputFile);
+            FileWriter fileWriter2 = new FileWriter(outputFile2);
+            fileWriter.write(outputString);
+            fileWriter2.write(outputString2);
+            fileWriter.close();
+            fileWriter2.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+
+    }
+
 }
