@@ -1,13 +1,29 @@
 package bsk;
 
+import java.io.*;
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        Zadanko4.saveToFile();
-        System.out.println(Zadanko4.decode("YHKGQLGMJFNXBMLRLQXYZCKQXSXBSLRHP", 7, 17));
+//        String inputString = "CRYPTOGRAPHY";
+//        String key = "CONVENIENCE";
 
-        System.out.println(Zadanko2.encode("TOP_SECRET_MESSAGE", "3-4-1-5-2"));
+//        String inputString = "ALAMAKOTA";
+//        String key = "ALA";
+//
+//        String outputString;
+//        outputString = Zadanko5.encode(inputString, key);
+//
+//        System.out.println(outputString);
 
+//     Zadanko1.saveToFile();
+//    Zadanko2.saveToFile();
+//    Zadanko3.saveToFile();
+//    Zadanko4.saveToFile();
+//    Zadanko5.saveToFile();
+//        Zadanko1.saveDecodeToFile();
+//        System.out.println(Zadanko2.decode("P TSOREETCES SMEAG","3-4-1-5-2"));
     }
 }

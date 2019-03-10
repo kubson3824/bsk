@@ -57,4 +57,38 @@ public class Zadanko5 {
             System.out.println("Error with file: "+ e.getMessage());
         }
     }
+
+    public static void saveDecodeToFile(){
+        String key="";
+        String inputString="";
+        String outputString="";
+
+        File inputFile = new File("src/bsk/results/In05Decode.txt");
+        File outputFile = new File("src/bsk/results/Out05Decode.txt");
+
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(inputFile));
+            key=bufferedReader.readLine();
+            inputString=bufferedReader.readLine();
+        } catch (
+                FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (
+                IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+
+        outputString=decode(inputString, key);
+
+        try {
+            FileWriter fileWriter = new FileWriter(outputFile);
+            fileWriter.write(outputString);
+            fileWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+    }
 }
