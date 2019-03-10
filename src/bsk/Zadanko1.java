@@ -90,6 +90,7 @@ public class Zadanko1 {
                     }
                 }
             }
+        System.out.println(outputString);
         return outputString.toString();
     }
 
@@ -107,6 +108,36 @@ public class Zadanko1 {
             inputString = bufferedReader.readLine();
             inputString=bufferedReader.readLine();
             outputString=Zadanko1.encode(inputString,n);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(outputFile);
+            fileWriter.write(outputString);
+            fileWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error with file: "+ e.getMessage());
+        }
+    }
+
+    public static void saveDecodeToFile(){
+        int n=0;
+        String inputString="";
+        String outputString="";
+
+        File inputFile = new File("src/bsk/results/In01Decode.txt");
+        File outputFile = new File("src/bsk/results/Out01Decode.txt");
+        try {
+            Scanner scanner = new Scanner(inputFile);
+            n = scanner.nextInt();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+            inputString = bufferedReader.readLine();
+            inputString=bufferedReader.readLine();
+            outputString=Zadanko1.decode(inputString,n);
         } catch (FileNotFoundException e) {
             System.out.println("Error with file: "+ e.getMessage());
         } catch (IOException e) {
