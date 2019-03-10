@@ -15,9 +15,10 @@ public class Zadanko2 {
         return result;
     }
 
-    public static String encode(String inputString, List<Integer> key) {
+    public static String encode(String inputString, String keyString) {
+        List<Integer> key = stringToArray(keyString);
         String outputString = new String();
-        for (int i = 0; i <= inputString.length(); i++) {
+        for (int i = 0; i <= Math.round((float) inputString.length() / key.size()) * key.size(); i++) {
             if ((i / key.size()) * key.size() + key.get(i % key.size()) >= inputString.length()) {
                 continue;
             }
@@ -30,7 +31,7 @@ public class Zadanko2 {
         String key="";
         String inputString="";
         String outputString="";
-        List<Integer> keys = new ArrayList<>();
+//        List<Integer> keys = new ArrayList<>();
 
         File inputFile = new File("src/bsk/results/In02.txt");
         File outputFile = new File("src/bsk/results/Out02.txt");
@@ -46,8 +47,8 @@ public class Zadanko2 {
             System.out.println("Error with file: "+ e.getMessage());
         }
 
-        keys= stringToArray(key);
-        outputString=encode(inputString,keys);
+//        keys= stringToArray(key);
+        outputString = encode(inputString, key);
 
         try {
             FileWriter fileWriter = new FileWriter(outputFile);

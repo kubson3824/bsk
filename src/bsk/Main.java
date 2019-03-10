@@ -9,9 +9,9 @@ public class Main {
         //Zadanko3.saveToFile();
         //Zadanko4.saveToFile();
 
-        Zadanko3.saveToFile();
-        System.out.println(Zadanko3.decode2C("HEESPNI_ANTRRSSEESIDEIYDASCBTEEMGEPNNEEANDIHDCTARTAHSOAVOHIEERODARMEOCYYFTTKGEENPURSAJEIRSCIHNCEVGESOSTKTAEAHFID", "CONVENIENCE"));
+//        Zadanko3.saveToFile();
+        System.out.println(Zadanko2.encode("TOP_SECRET_MESSAGE", "3-4-1-5-2"));
 
-        Zadanko1.saveDecodeToFile();
+//        Zadanko1.saveDecodeToFile();
     }
 }
