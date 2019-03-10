@@ -23,6 +23,41 @@ public class Zadanko3 {
         return outputString.toString();
     }
 
+    public static String decode2B(String inputString, String key) {
+        StringBuilder outputString = new StringBuilder();
+        Map<Integer, Integer> code = sequenceFromKey(key);
+        int rows = (inputString.length() / key.length()) + 1;
+        Boolean[][] truthTable = new Boolean[rows][code.size()];
+        for (int i = 0; i < truthTable.length; i++) {
+            for (int j = 0; j < truthTable[i].length; j++) {
+                truthTable[i][j] = (code.size() * i) + j < inputString.length();
+            }
+        }
+        Character[][] characters = new Character[rows][code.size()];
+        Integer position = 0;
+        for (int i = 0; i < code.size(); i++) {
+            int col = code.get(i);
+            for (int j = 0; j < rows; j++) {
+                if (position >= inputString.length()) {
+                    break;
+                }
+                if (truthTable[j][col]) {
+                    characters[j][col] = inputString.charAt(position);
+                    position++;
+                }
+            }
+        }
+        for (int i = 0; i < characters.length; i++) {
+            for (int j = 0; j < characters[i].length; j++) {
+                if (characters[i][j] == null) {
+                    continue;
+                }
+                outputString.append(characters[i][j]);
+            }
+        }
+        return outputString.toString();
+    }
+
     private static Map<Integer, Integer> sequenceFromKey(String key) {
         char[] keyArray = key.toCharArray();
         Boolean[] map = new Boolean[key.length()];
