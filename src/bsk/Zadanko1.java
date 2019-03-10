@@ -1,6 +1,8 @@
 package bsk;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Zadanko1 {
@@ -24,6 +26,70 @@ public class Zadanko1 {
         for (int i = 0; 2 * (n - 1) * i + n - 1 < inputString.length(); i++) {
             outputString.append(inputString.charAt(2 * (n - 1) * i + n - 1));
         }
+        return outputString.toString();
+    }
+
+    public static String decode(String inputString, int n){
+        StringBuilder outputString = new StringBuilder();
+
+        char matrix[][] = new char[n][inputString.length()];
+        for(int i=0;i<n;i++){
+            for(int j=0; j<inputString.length(); j++){
+                matrix[i][j]='~';
+            }
+        }
+
+        //kierunek; dla true w dol, dla false w gore
+        boolean direction=true;
+        int i=0;
+        int j=0;
+        while(j<inputString.length()){
+            if(direction){
+                if(i<n-1){
+                    matrix[i][j]='@';
+                    i++;
+                    j++;
+                }else if(i==n-1){
+                    matrix[i][j]='@';
+                    direction=false;
+                    i--;
+                    j++;
+                }
+            }else if(!direction){
+                if(i>0){
+                    matrix[i][j]='@';
+                    i--;
+                    j++;
+                }else if(i==0){
+                    matrix[i][j]='@';
+                    direction=true;
+                    i++;
+                    j++;
+                }
+            }
+        }
+        int size=0;
+        for(int k=0;k<n;k++){
+            for(int l=0; l<inputString.length(); l++){
+                if(matrix[k][l]=='@'){
+                    matrix[k][l]=inputString.charAt(size);
+                    size++;
+                }
+            }
+        }
+        for(int k=0;k<n;k++){
+            for(int l=0; l<inputString.length(); l++){
+                System.out.print(matrix[k][l]+", ");
+            }
+            System.out.println();
+        }
+        for(int k=0;k<inputString.length();k++){
+            for(int l=0; l<n; l++){
+                if(matrix[l][k]!='~') {
+                    outputString.append(matrix[l][k]);
+                    }
+                }
+            }
         return outputString.toString();
     }
 

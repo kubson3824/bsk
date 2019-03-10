@@ -18,10 +18,11 @@ public class Main {
 //
 //        System.out.println(outputString);
 
-     //Zadanko1.saveToFile();
+//     Zadanko1.saveToFile();
     //Zadanko2.saveToFile();
     //Zadanko3.saveToFile();
     //Zadanko4.saveToFile();
-    Zadanko5.saveToFile();
+//    Zadanko5.saveToFile();
+        System.out.println(Zadanko1.decode("CTA PRYYGHRPORPYCYTGAH RPORPYYGHROPCTA", 3));
     }
 }
