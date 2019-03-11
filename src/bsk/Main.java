@@ -10,7 +10,8 @@ public class Main {
         //Zadanko4.saveToFile();
 
 //        Zadanko3.saveToFile();
-        System.out.println(Zadanko3.decode2B("HECRNCEYIISEPSGDIRNTOAAESRMPNSSROEEBTETIAEEHS", "CONVENIENCE"));
+//        System.out.println(Zadanko3.decode2B("HECRNCEYIISEPSGDIRNTOAAESRMPNSSROEEBTETIAEEHS", "CONVENIENCE"));
+        Zadanko3.saveDecodeToFile();
 
     }
 }

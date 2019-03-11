@@ -278,7 +278,7 @@ public class Zadanko3 {
         String outputString2 = "";
 
         File inputFile = new File("src/bsk/results/In03Decode.txt");
-//        File outputFile = new File("src/bsk/results/Out03Decode.txt");
+        File outputFile = new File("src/bsk/results/Out03Decode.txt");
         File outputFile2 = new File("src/bsk/results/Out03v2Decode.txt");
 
         BufferedReader bufferedReader = null;
@@ -291,15 +291,15 @@ public class Zadanko3 {
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }
-        outputString = encode2B(inputString, key);
+        outputString = decode2B(inputString, key);
         outputString2 = decode2C(inputString, key);
 
         try {
-//            FileWriter fileWriter = new FileWriter(outputFile);
+            FileWriter fileWriter = new FileWriter(outputFile);
             FileWriter fileWriter2 = new FileWriter(outputFile2);
-//            fileWriter.write(outputString);
+            fileWriter.write(outputString);
             fileWriter2.write(outputString2);
-//            fileWriter.close();
+            fileWriter.close();
             fileWriter2.close();
         } catch (FileNotFoundException e) {
             System.out.println("Error with file: " + e.getMessage());
