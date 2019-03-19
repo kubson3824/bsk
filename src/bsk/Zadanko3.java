@@ -13,7 +13,7 @@ public class Zadanko3 {
         StringBuilder outputString = new StringBuilder();
         Map<Integer, Integer> code = sequenceFromKey(key);
         for (int i = 0; i < code.size(); i++) {
-            for (int j = 0; i + (j * code.size()) < inputString.length(); j++) {
+            for (int j = 0; code.get(i) + (j * code.size()) < inputString.length(); j++) {
                 if (code.get(i) + j * code.size() >= inputString.length()) {
                     continue;
                 }

@@ -77,12 +77,12 @@ public class Zadanko1 {
                 }
             }
         }
-        for(int k=0;k<n;k++){
-            for(int l=0; l<inputString.length(); l++){
-                System.out.print(matrix[k][l]+", ");
-            }
-            System.out.println();
-        }
+//        for(int k=0;k<n;k++){
+//            for(int l=0; l<inputString.length(); l++){
+//                System.out.print(matrix[k][l]+", ");
+//            }
+//            System.out.println();
+//        }
         for(int k=0;k<inputString.length();k++){
             for(int l=0; l<n; l++){
                 if(matrix[l][k]!='~') {
@@ -90,7 +90,7 @@ public class Zadanko1 {
                     }
                 }
             }
-        System.out.println(outputString);
+//        System.out.println(outputString);
         return outputString.toString();
     }
 

@@ -10,7 +10,7 @@ public class Zadanko5 {
         String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < word.length(); i++) {
             output.append(alfabet.charAt((alfabet.indexOf(word.charAt(i)) + alfabet.indexOf(key.charAt(i % key.length()))) % alfabet.length()));
-            System.out.println(output.toString());
+//            System.out.println(output.toString());
         }
         return output.toString();
     }

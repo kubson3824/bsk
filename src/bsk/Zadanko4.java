@@ -1,6 +1,8 @@
 package bsk;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Zadanko4 {
@@ -22,13 +24,13 @@ public class Zadanko4 {
         String outputString = new String();
         int n = alfabet.length();
         int fi_n = 12;
-
+        BigInteger keyOne = BigInteger.valueOf(key1);
         for (int i = 0; i < inputString.length(); i++) {
             int temp1 = alfabet.indexOf(inputString.charAt(i));
-            long first_part = temp1 + n - key0;
-            long second_part = (long) Math.pow(key1, fi_n - 1);
-            long result = (first_part * second_part) % n;
-            outputString += alfabet.charAt((int) result);
+            BigInteger first_part =BigInteger.valueOf(temp1 + n - key0);
+            BigInteger second_part =  keyOne.pow( fi_n - 1);
+            BigInteger result = first_part.multiply(second_part).mod(BigInteger.valueOf(n));
+            outputString += alfabet.charAt(Integer.valueOf(result.toString()));
         }
         return outputString;
     }
