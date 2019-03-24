@@ -40,4 +40,6 @@ public class Zad1 {
 
         return wynik;
     }
+
+
 }
