@@ -1,9 +1,10 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Zad1 {
+class Zad1 {
 
-    public static List<Boolean[]> zad1(Boolean[] wielomian, Boolean[] seed, Integer n) {
+    private static List<Boolean[]> zad1(Boolean[] wielomian, Boolean[] seed, Integer n) {
         //wielomian true false true, seed true false false
         List<Boolean[]> wynik = new ArrayList<>();
 
@@ -23,7 +24,7 @@ public class Zad1 {
         wynik.add(pierwszy);
 
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n - 1; i++) {
             Boolean[] tab = new Boolean[seed.length];
             for (int j = 0; j < seed.length; j++)
                 if (wielomian[j])
@@ -41,5 +42,32 @@ public class Zad1 {
         return wynik;
     }
 
+    static void saveToFile() {
+        int n;
+        Boolean[] wielomian;
+        Boolean[] seed;
+        List<Boolean[]> wynik = null;
+        File inputFile = new File("PS4-5/src/In01.txt");
+        File outputFile = new File("PS4-5/src//Out01.txt");
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+            n = Integer.parseInt(bufferedReader.readLine());
+            wielomian = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
+            seed = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
+            wynik = zad1(wielomian, seed, n);
+        } catch (IOException e) {
+            System.out.println("Error with file: " + e.getMessage());
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(outputFile);
+            for (Boolean[] booleans : wynik) {
+                fileWriter.write(BinaryFileHandler.booleanToString(booleans));
+                fileWriter.write('\n');
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error with file: " + e.getMessage());
+        }
+    }
 
 }
