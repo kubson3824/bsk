@@ -47,8 +47,8 @@ class Zad1 {
         Boolean[] wielomian;
         Boolean[] seed;
         List<Boolean[]> wynik = null;
-        File inputFile = new File("PS4-5/src/In01.txt");
-        File outputFile = new File("PS4-5/src//Out01.txt");
+        File inputFile = new File("src/In01.txt");
+        File outputFile = new File("src/Out01.txt");
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
             n = Integer.parseInt(bufferedReader.readLine());

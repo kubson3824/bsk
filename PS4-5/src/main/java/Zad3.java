@@ -91,54 +91,50 @@ public class Zad3 {
     }
 
     static void saveToFileEncode() {
-        Boolean[] message = new Boolean[0];
+        Boolean[] message;
         Boolean[] wielomian;
         Boolean[] seed;
         Boolean[] wynik = null;
-        int numer;
-        File inputFile = new File("PS4-5/src/In03.txt");
-        File outputFile = new File("PS4-5/src/Out03.txt");
+        File inputFile = new File("src/In03.txt");
+        File outputFile = new File("src/Out03.bin");
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
             wielomian = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
             seed = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
-            numer = Integer.parseInt(bufferedReader.readLine());
-            message = BinaryFileHandler.readFile(bufferedReader.readLine()).get(numer);
+            message = BinaryFileHandler.readFile(bufferedReader.readLine());
             wynik = zad3_szyfruj(wielomian, seed, message);
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }
         try {
-            FileWriter fileWriter = new FileWriter(outputFile);
-            fileWriter.write("Message: " + BinaryFileHandler.booleanToString(message) + "\n");
-            fileWriter.write("Result: " + BinaryFileHandler.booleanToString(wynik));
-            fileWriter.close();
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            outputStream.write(BinaryFileHandler.booleanToByte(wynik));
+            outputStream.close();
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }
     }
 
     static void saveToFileDecode() {
-        Boolean[] message = new Boolean[0];
+        Boolean[] message;
         Boolean[] wielomian;
         Boolean[] seed;
         Boolean[] wynik = null;
-        File inputFile = new File("PS4-5/src/In03Decode.txt");
-        File outputFile = new File("PS4-5/src/Out03Decode.txt");
+        File inputFile = new File("src/In03Decode.txt");
+        File outputFile = new File("src/Out03Decode.bin");
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
             wielomian = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
             seed = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
-            message = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
+            message = BinaryFileHandler.readFile(bufferedReader.readLine());
             wynik = zad3_deszyfruj(wielomian, seed, message);
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }
         try {
-            FileWriter fileWriter = new FileWriter(outputFile);
-            fileWriter.write("Message: " + BinaryFileHandler.booleanToString(message) + "\n");
-            fileWriter.write("Result: " + BinaryFileHandler.booleanToString(wynik));
-            fileWriter.close();
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            outputStream.write(BinaryFileHandler.booleanToByte(wynik));
+            outputStream.close();
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }

@@ -98,28 +98,25 @@ public class Zad2 {
 //    }
 
     static void saveToFile() {
-        Boolean[] message = new Boolean[0];
+        Boolean[] message;
         Boolean[] wielomian;
         Boolean[] seed;
         Boolean[] wynik = null;
-        int numer;
-        File inputFile = new File("PS4-5/src/In02.txt");
-        File outputFile = new File("PS4-5/src/Out02.txt");
+        File inputFile = new File("src/In02.txt");
+        File outputFile = new File("src/Out02.bin");
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
             wielomian = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
             seed = BinaryFileHandler.stringToBoolean(bufferedReader.readLine());
-            numer = Integer.parseInt(bufferedReader.readLine());
-            message = BinaryFileHandler.readFile(bufferedReader.readLine()).get(numer);
+            message = BinaryFileHandler.readFile(bufferedReader.readLine());
             wynik = zad2_szyfruj(wielomian, seed, message);
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }
         try {
-            FileWriter fileWriter = new FileWriter(outputFile);
-            fileWriter.write("Message: " + BinaryFileHandler.booleanToString(message) + "\n");
-            fileWriter.write("Result: " + BinaryFileHandler.booleanToString(wynik));
-            fileWriter.close();
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            outputStream.write(BinaryFileHandler.booleanToByte(wynik));
+            outputStream.close();
         } catch (IOException e) {
             System.out.println("Error with file: " + e.getMessage());
         }

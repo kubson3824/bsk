@@ -7,21 +7,27 @@ import java.util.List;
 
 class BinaryFileHandler {
 
-    static List<Boolean[]> readFile(String filePath) {
+    static Boolean[] readFile(String filePath) {
         List<Boolean[]> result = new ArrayList<>();
         try (
                 InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath))
         ) {
             byte[] buffer = new byte[1];
             while (inputStream.read(buffer) != -1) {
-                if (buffer[0] != 0) {
-                    result.add(bytesToBooleans(buffer));
-                }
+                result.add(bytesToBooleans(buffer));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        int index = 0;
+        Boolean[] finalBool = new Boolean[result.size() * 8];
+        for (Boolean[] b : result) {
+            for (int i = 0; i < b.length; i++) {
+                finalBool[index] = b[i];
+                index++;
+            }
+        }
+        return finalBool;
     }
 
     private static Boolean[] bytesToBooleans(byte[] bytes) {
@@ -35,6 +41,18 @@ class BinaryFileHandler {
         }
 
         return bools;
+    }
+
+    static byte[] booleanToByte(Boolean[] booleans) {
+        byte[] result = new byte[booleans.length / 8];
+        for (int entry = 0; entry < result.length; entry++) {
+            for (int bit = 0; bit < 8; bit++) {
+                if (booleans[entry * 8 + bit]) {
+                    result[entry] |= (128 >> bit);
+                }
+            }
+        }
+        return result;
     }
 
     static Boolean[] stringToBoolean(String readLine) {
