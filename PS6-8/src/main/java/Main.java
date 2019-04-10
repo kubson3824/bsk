@@ -1,15 +1,10 @@
-import java.io.IOException;
-import java.util.Arrays;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-
-    public static void main(String[] args) throws IOException {
-        BinaryFileHandler handler = new BinaryFileHandler();
-        List<byte[]> bytes = handler.readBinaryFile("test3.bin");
-        for (byte[] aByte : bytes) {
-            System.out.println(Arrays.toString(aByte));
-        }
-        System.out.println(handler.writeBinaryFile(bytes, "Out1.bin"));
+    public static void main(String []args){
+        BigInteger b = new BigInteger("5");
+        List<BigInteger> keys = DES.generateKeys(b);
     }
 }
