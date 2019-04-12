@@ -177,7 +177,7 @@ public class DES {
             System.out.println(tabSout[i]);
         }
         BigInteger tabsJoined = new BigInteger("0");
-        //ToDo poprawic tego fora
+        //ToDo poprawic tego fora, zle laczy te 8, 4-bitowych wyrazow
         for(int i =0;i<32;i++){
             if(tabSout[(i/4)].testBit(i%4)){
                 tabsJoined=tabsJoined.setBit(i);
