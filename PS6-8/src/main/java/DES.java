@@ -27,8 +27,8 @@ public class DES {
         d= newKey.subtract(pom);
         System.out.println(newKey);
         System.out.println(newKey.toString(2));
-        System.out.println(c);
-        System.out.println(d);
+        System.out.println(c.toString(2));
+        System.out.println(d.toString(2));
 
         for(int i=0; i<16; i++){
             c=c.shiftLeft(shifts[i]);
@@ -47,12 +47,13 @@ public class DES {
             }
             BigInteger pom2 = c.shiftLeft(28);
             BigInteger sum = pom2.add(d);
+            System.out.println("sum: "+sum.toString(2));
             BigInteger fin = new BigInteger("0");
-            for(int j =0; j<56; j++) {
-                if (sum.testBit((tab[j] - 1))) {
-                    fin = fin.setBit(55-j);
+            for(int j =0; j<48; j++) {
+                if (sum.testBit((tab2[j] - 1))) {
+                    fin = fin.setBit(47-j);
                 } else {
-                    fin = fin.clearBit(55-j);
+                    fin = fin.clearBit(47-j);
                 }
             }
             keys.add(fin);
