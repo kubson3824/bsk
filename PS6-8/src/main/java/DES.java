@@ -68,18 +68,21 @@ public class DES {
     public static int[][][] s = {s1, s2, s3, s4, s5, s6, s7, s8};
 
     public static List<BigInteger> generateKeys(BigInteger key){
+
         List<BigInteger> keys = new ArrayList<BigInteger>();
         BigInteger newKey = new BigInteger("0");
         BigInteger c= new BigInteger("0");
         BigInteger d= new BigInteger("0");
+
         //permutacja na tablicy tab(PC1)
         for(int i =0; i<56; i++) {
             if (key.testBit((tab[i] - 1))) {
-                newKey = newKey.setBit(i);
+                newKey = newKey.setBit(55-i);
             } else {
-                newKey = newKey.clearBit(i);
+                newKey = newKey.clearBit(55-i);
             }
         }
+
         //dziele slowo na czesc lewa (c) i prawa (d) po 28 bitow
         int length = newKey.bitLength();
         if(length>28) {
@@ -95,22 +98,36 @@ public class DES {
         }
 
         //sprawdzam czy przy przesunieciu nie wychodze poza 28 bitow
-        //ToDO czhyba trzeba bedzie to inaczej zrobic jednak
         for(int i=0; i<16; i++){
             c=c.shiftLeft(shifts[i]);
             d=d.shiftLeft(shifts[i]);
-            if(c.testBit(28)){
-                c=c.clearBit(28);
-            }
-            if(d.testBit(28)){
-                d=d.clearBit(28);
-            }
             if(c.testBit(29)){
                 c=c.clearBit(29);
+                c=c.setBit(1);
+                if(c.testBit(28)){
+                    c=c.clearBit(28);
+                    c=c.setBit(0);
+                }
+            }else{
+                if(c.testBit(28)){
+                    c=c.clearBit(28);
+                    c=c.setBit(0);
+                }
             }
             if(d.testBit(29)){
                 d=d.clearBit(29);
+                d=d.setBit(1);
+                if(d.testBit(28)){
+                    d=d.clearBit(28);
+                    d=d.setBit(0);
+                }
+            }else{
+                if(d.testBit(28)){
+                    d=d.clearBit(28);
+                    d=d.setBit(0);
+                }
             }
+
 //            System.out.println("c: "+c.toString(2));
 //            System.out.println("d: "+d.toString(2));
             //lacze czesc lewa i prawa ( c i d)
@@ -121,14 +138,14 @@ public class DES {
             //permutacja na tablicy tab2(PC2)
             for(int j =0; j<48; j++) {
                 if (sum.testBit((tab2[j] - 1))) {
-                    fin = fin.setBit(j);
+                    fin = fin.setBit(47-j);
                 } else {
-                    fin = fin.clearBit(j);
+                    fin = fin.clearBit(47-j);
                 }
             }
             //dodaje klucz na liste
             keys.add(fin);
-//            System.out.println(fin.toString(2));
+            System.out.println(fin.toString(16));
         }
         return keys;
     }
@@ -139,9 +156,9 @@ public class DES {
         // permutacja po tablicy tabE, czesci prawej, po ktorej rozszerza sie z 32 do 48 bitow
         for(int i=0; i<48; i++){
             if (r.testBit((tabE[i] - 1))) {
-                e = e.setBit(i);
+                e = e.setBit(47-i);
             } else {
-                e = e.clearBit(i);
+                e = e.clearBit(47-i);
             }
         }
         //xor z kluczem
@@ -205,9 +222,9 @@ public class DES {
         //ostatnia permutacja na tablicy tabP
         for(int i=0; i<32; i++){
             if (tabsJoined.testBit((tabP[i] - 1))) {
-                finalRes = finalRes.setBit(i);
+                finalRes = finalRes.setBit(31-i);
             } else {
-                finalRes = finalRes.clearBit(i);
+                finalRes = finalRes.clearBit(31-i);
             }
         }
 //        System.out.println(finalRes.toString(10));
@@ -219,9 +236,9 @@ public class DES {
         // permutacja na tablicy IP
         for(int i=0;i<64;i++){
             if(word.testBit(tabIp[i]-1)){
-                a=a.setBit(i);
+                a=a.setBit(63-i);
             }else{
-                a=a.clearBit(i);
+                a=a.clearBit(63-i);
             }
         }
 //        System.out.println(a.toString(2));
@@ -265,12 +282,12 @@ public class DES {
         //ostatnia permutacja na tablicy IP2
         for(int i=0; i<64; i++){
             if(pom4.testBit(tabIp2[i]-1)){
-                finalRes = finalRes.setBit(i);
+                finalRes = finalRes.setBit(63-i);
             }else{
-                finalRes = finalRes.clearBit(i);
+                finalRes = finalRes.clearBit(63-i);
             }
         }
-        System.out.println(finalRes.toString(2));
+        System.out.println(finalRes.toString(16));
         return finalRes;
     }
 }
