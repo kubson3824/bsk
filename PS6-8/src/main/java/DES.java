@@ -72,7 +72,7 @@ public class DES {
         BigInteger newKey = new BigInteger("0");
         BigInteger c= new BigInteger("0");
         BigInteger d= new BigInteger("0");
-        int max = 55;
+        //permutacja na tablicy tab(PC1)
         for(int i =0; i<56; i++) {
             if (key.testBit((tab[i] - 1))) {
                 newKey = newKey.setBit(i);
@@ -80,6 +80,7 @@ public class DES {
                 newKey = newKey.clearBit(i);
             }
         }
+        //dziele slowo na czesc lewa (c) i prawa (d) po 28 bitow
         int length = newKey.bitLength();
         if(length>28) {
             c = newKey.shiftRight(length - 28);
@@ -93,6 +94,8 @@ public class DES {
             d=newKey;
         }
 
+        //sprawdzam czy przy przesunieciu nie wychodze poza 28 bitow
+        //ToDO czhyba trzeba bedzie to inaczej zrobic jednak
         for(int i=0; i<16; i++){
             c=c.shiftLeft(shifts[i]);
             d=d.shiftLeft(shifts[i]);
@@ -110,10 +113,12 @@ public class DES {
             }
 //            System.out.println("c: "+c.toString(2));
 //            System.out.println("d: "+d.toString(2));
+            //lacze czesc lewa i prawa ( c i d)
             BigInteger pom2 = c.shiftLeft(28);
             BigInteger sum = pom2.add(d);
 //            System.out.println("sum: "+sum.toString(2));
             BigInteger fin = new BigInteger("0");
+            //permutacja na tablicy tab2(PC2)
             for(int j =0; j<48; j++) {
                 if (sum.testBit((tab2[j] - 1))) {
                     fin = fin.setBit(j);
@@ -121,6 +126,7 @@ public class DES {
                     fin = fin.clearBit(j);
                 }
             }
+            //dodaje klucz na liste
             keys.add(fin);
 //            System.out.println(fin.toString(2));
         }
@@ -130,6 +136,7 @@ public class DES {
     public static BigInteger cipherFunction(BigInteger r, BigInteger key){
         BigInteger result= new BigInteger("0");
         BigInteger e= new BigInteger("0");
+        // permutacja po tablicy tabE, czesci prawej, po ktorej rozszerza sie z 32 do 48 bitow
         for(int i=0; i<48; i++){
             if (r.testBit((tabE[i] - 1))) {
                 e = e.setBit(i);
@@ -137,10 +144,12 @@ public class DES {
                 e = e.clearBit(i);
             }
         }
+        //xor z kluczem
         result=e.xor(key);
         BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
         int licznik=0;
 //        System.out.println(result.toString(2));
+        //dziele wyraz na 8 6-bitowych wyrazow
         for(int i=0; i<8; i++){
             for(int j=0; j<6;j++){
                 if(result.testBit(licznik)){
@@ -153,6 +162,7 @@ public class DES {
             //System.out.println(tabS[i].toString(2));
         }
         BigInteger tabSout[] = new BigInteger[8];
+        //dziele 8 6-bitowych wyrazow na 8 4-bitowych wyrazow
         for(int i=0;i<8;i++){
             BigInteger row = new BigInteger("0");
             BigInteger col = new BigInteger("0");
@@ -180,6 +190,7 @@ public class DES {
             tabSout[i]=new BigInteger(pom);
 //            System.out.println(tabSout[i].toString(2));
         }
+        //lacze 8 4-bitowych wyrazow w jeden wyraz
         BigInteger tabsJoined = new BigInteger("0");
         for(int i =0;i<32;i++){
             if(tabSout[(i/4)].testBit(i%4)){
@@ -191,6 +202,7 @@ public class DES {
 
         BigInteger finalRes = new BigInteger("0");
 //        System.out.println(tabsJoined.toString(2));
+        //ostatnia permutacja na tablicy tabP
         for(int i=0; i<32; i++){
             if (tabsJoined.testBit((tabP[i] - 1))) {
                 finalRes = finalRes.setBit(i);
@@ -204,6 +216,7 @@ public class DES {
 
     public static BigInteger encrypt(BigInteger word, List<BigInteger> keys){
         BigInteger a = new BigInteger("0");
+        // permutacja na tablicy IP
         for(int i=0;i<64;i++){
             if(word.testBit(tabIp[i]-1)){
                 a=a.setBit(i);
@@ -215,6 +228,7 @@ public class DES {
         BigInteger l = new BigInteger("0");
         BigInteger r = new BigInteger("0");
         BigInteger pom = new BigInteger("0");
+        // dziele bit na 2 32-bitowe czesci lewa i prawa (l i r)
         int length = a.bitLength();
         if(length>32) {
             l = a.shiftRight(a.bitLength() - 32);
@@ -228,7 +242,7 @@ public class DES {
 //        System.out.println(pom.toString(2));
         for(int i=0; i<16;i++){
             BigInteger pom2 = new BigInteger("0");
-            BigInteger pom3 = new BigInteger("0");
+            //funkcja f i lewa czesc staje sie prawa z poprzedniej kolejki, a prawa to xor lewej czesci z wynikiem funkcji f
             pom2=cipherFunction(r, keys.get(i));
             pom=r;
             r=l.xor(pom2);
@@ -237,14 +251,18 @@ public class DES {
 //            System.out.println(r);
 //            System.out.println(pom2);
         }
+        // ostatnia permutacja powinna byc bez zamiany, wiec zamieniam lewa z prawa xD
         BigInteger pom3 = new BigInteger("0");
         BigInteger pom4 = new BigInteger("0");
         l=pom3;
         l=r;
         r=pom3;
+        //lacze 2 czesci
+        //ToDO trzeba sprawdzic
         l=l.shiftLeft(32);
         pom4=l.xor(r);
         BigInteger finalRes = new BigInteger("0");
+        //ostatnia permutacja na tablicy IP2
         for(int i=0; i<64; i++){
             if(pom4.testBit(tabIp2[i]-1)){
                 finalRes = finalRes.setBit(i);
@@ -252,7 +270,7 @@ public class DES {
                 finalRes = finalRes.clearBit(i);
             }
         }
-        System.out.println(finalRes.toString(16));
+        System.out.println(finalRes.toString(2));
         return finalRes;
     }
 }
