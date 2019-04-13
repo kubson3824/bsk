@@ -81,13 +81,17 @@ public class DES {
             }
         }
         int length = newKey.bitLength();
-        c = newKey.shiftRight(length-28);
-        BigInteger pom = c.shiftLeft(length-28);
-        d= newKey.xor(pom);
-        System.out.println(newKey);
-        System.out.println(newKey.toString(2));
-        System.out.println(c.toString(2));
-        System.out.println(d.toString(2));
+        if(length>28) {
+            c = newKey.shiftRight(length - 28);
+            BigInteger pom = c.shiftLeft(length - 28);
+            d = newKey.xor(pom);
+//            System.out.println(newKey);
+//            System.out.println(newKey.toString(2));
+//            System.out.println(c.toString(2));
+//            System.out.println(d.toString(2));
+        }else{
+            d=newKey;
+        }
 
         for(int i=0; i<16; i++){
             c=c.shiftLeft(shifts[i]);
@@ -104,11 +108,11 @@ public class DES {
             if(d.testBit(29)){
                 d=d.clearBit(29);
             }
-            System.out.println("c: "+c.toString(2));
-            System.out.println("d: "+d.toString(2));
+//            System.out.println("c: "+c.toString(2));
+//            System.out.println("d: "+d.toString(2));
             BigInteger pom2 = c.shiftLeft(28);
             BigInteger sum = pom2.add(d);
-            System.out.println("sum: "+sum.toString(2));
+//            System.out.println("sum: "+sum.toString(2));
             BigInteger fin = new BigInteger("0");
             for(int j =0; j<48; j++) {
                 if (sum.testBit((tab2[j] - 1))) {
@@ -118,7 +122,7 @@ public class DES {
                 }
             }
             keys.add(fin);
-            System.out.println(fin.toString(2));
+//            System.out.println(fin.toString(2));
         }
         return keys;
     }
@@ -136,7 +140,7 @@ public class DES {
         result=e.xor(key);
         BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
         int licznik=0;
-        System.out.println(result.toString(2));
+//        System.out.println(result.toString(2));
         for(int i=0; i<8; i++){
             for(int j=0; j<6;j++){
                 if(result.testBit(licznik)){
@@ -172,19 +176,21 @@ public class DES {
             }
             int rowInt=row.intValue();
             int colInt=col.intValue();
-            String pom = Integer.toString(s[i][rowInt][colInt],2);
+            String pom = Integer.toString(s[i][rowInt][colInt],10);
             tabSout[i]=new BigInteger(pom);
-            System.out.println(tabSout[i]);
+//            System.out.println(tabSout[i].toString(2));
         }
         BigInteger tabsJoined = new BigInteger("0");
-        //ToDo poprawic tego fora, zle laczy te 8, 4-bitowych wyrazow
         for(int i =0;i<32;i++){
             if(tabSout[(i/4)].testBit(i%4)){
                 tabsJoined=tabsJoined.setBit(i);
+            }else{
+                tabsJoined=tabsJoined.clearBit(i);
             }
         }
+
         BigInteger finalRes = new BigInteger("0");
-        System.out.println(tabsJoined.toString(2));
+//        System.out.println(tabsJoined.toString(2));
         for(int i=0; i<32; i++){
             if (tabsJoined.testBit((tabP[i] - 1))) {
                 finalRes = finalRes.setBit(i);
@@ -192,7 +198,61 @@ public class DES {
                 finalRes = finalRes.clearBit(i);
             }
         }
-        System.out.println(finalRes.toString(2));
+//        System.out.println(finalRes.toString(10));
+        return finalRes;
+    }
+
+    public static BigInteger encrypt(BigInteger word, List<BigInteger> keys){
+        BigInteger a = new BigInteger("0");
+        for(int i=0;i<64;i++){
+            if(word.testBit(tabIp[i]-1)){
+                a=a.setBit(i);
+            }else{
+                a=a.clearBit(i);
+            }
+        }
+//        System.out.println(a.toString(2));
+        BigInteger l = new BigInteger("0");
+        BigInteger r = new BigInteger("0");
+        BigInteger pom = new BigInteger("0");
+        int length = a.bitLength();
+        if(length>32) {
+            l = a.shiftRight(a.bitLength() - 32);
+            pom = l.shiftLeft(a.bitLength() - 32);
+            r = a.xor(pom);
+        }else{
+            r=a;
+        }
+//        System.out.println(l.toString(2));
+//        System.out.println(r.toString(2));
+//        System.out.println(pom.toString(2));
+        for(int i=0; i<16;i++){
+            BigInteger pom2 = new BigInteger("0");
+            BigInteger pom3 = new BigInteger("0");
+            pom2=cipherFunction(r, keys.get(i));
+            pom=r;
+            r=l.xor(pom2);
+            l=pom;
+//            System.out.println(l);
+//            System.out.println(r);
+//            System.out.println(pom2);
+        }
+        BigInteger pom3 = new BigInteger("0");
+        BigInteger pom4 = new BigInteger("0");
+        l=pom3;
+        l=r;
+        r=pom3;
+        l=l.shiftLeft(32);
+        pom4=l.xor(r);
+        BigInteger finalRes = new BigInteger("0");
+        for(int i=0; i<64; i++){
+            if(pom4.testBit(tabIp2[i]-1)){
+                finalRes = finalRes.setBit(i);
+            }else{
+                finalRes = finalRes.clearBit(i);
+            }
+        }
+        System.out.println(finalRes.toString(16));
         return finalRes;
     }
 }
