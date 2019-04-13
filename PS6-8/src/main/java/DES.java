@@ -145,7 +145,7 @@ public class DES {
             }
             //dodaje klucz na liste
             keys.add(fin);
-            System.out.println(fin.toString(16));
+//            System.out.println(fin.toString(16));
         }
         return keys;
     }
@@ -167,58 +167,63 @@ public class DES {
         int licznik=0;
 //        System.out.println(result.toString(2));
         //dziele wyraz na 8 6-bitowych wyrazow
-        for(int i=0; i<8; i++){
-            for(int j=0; j<6;j++){
-                if(result.testBit(licznik)){
-                    tabS[i] = tabS[i].setBit(j);
-                }else{
-                    tabS[i]=tabS[i].clearBit(j);
-                }
-                licznik++;
+        for(int i=0;i<48;i++){
+            if(result.testBit(i)){
+                tabS[i/6] = tabS[i/6].setBit(i%6);
             }
-            //System.out.println(tabS[i].toString(2));
         }
+//        for(int i=0;i<8;i++){
+//            System.out.println(tabS[i].toString(2));
+//        }
         BigInteger tabSout[] = new BigInteger[8];
-        //dziele 8 6-bitowych wyrazow na 8 4-bitowych wyrazow
+        //dziele 8 6-bitowych wyrazow na 8 4-bitowych wyrazow, sa w odwroconej kolejnosci bo potem latwiej je laczyc
         for(int i=0;i<8;i++){
             BigInteger row = new BigInteger("0");
             BigInteger col = new BigInteger("0");
             if(tabS[i].testBit(0)){
-                row.setBit(0);
+                row=row.setBit(0);
             }
             if(tabS[i].testBit(5)){
-                row.setBit(1);
+                row=row.setBit(1);
             }
             if(tabS[i].testBit(1)){
-                col.setBit(0);
+                col=col.setBit(0);
             }
             if(tabS[i].testBit(2)){
-                col.setBit(1);
+                col=col.setBit(1);
             }
             if(tabS[i].testBit(3)){
-                col.setBit(2);
+                col=col.setBit(2);
             }
             if(tabS[i].testBit(4)){
-                col.setBit(3);
+                col=col.setBit(3);
             }
             int rowInt=row.intValue();
             int colInt=col.intValue();
             String pom = Integer.toString(s[i][rowInt][colInt],10);
+
+//            System.out.println(rowInt);
+//            System.out.println(colInt);
+//            System.out.println(pom);
+//            System.out.println();
+
             tabSout[i]=new BigInteger(pom);
-//            System.out.println(tabSout[i].toString(2));
+
         }
+//        for(int i=0;i<8;i++){
+//            System.out.println(tabSout[i].toString(10));
+//        }
+
         //lacze 8 4-bitowych wyrazow w jeden wyraz
         BigInteger tabsJoined = new BigInteger("0");
         for(int i =0;i<32;i++){
             if(tabSout[(i/4)].testBit(i%4)){
                 tabsJoined=tabsJoined.setBit(i);
-            }else{
-                tabsJoined=tabsJoined.clearBit(i);
             }
         }
+//        System.out.println(tabsJoined.toString(2));
 
         BigInteger finalRes = new BigInteger("0");
-//        System.out.println(tabsJoined.toString(2));
         //ostatnia permutacja na tablicy tabP
         for(int i=0; i<32; i++){
             if (tabsJoined.testBit((tabP[i] - 1))) {
@@ -227,7 +232,7 @@ public class DES {
                 finalRes = finalRes.clearBit(31-i);
             }
         }
-//        System.out.println(finalRes.toString(10));
+//        System.out.println(finalRes.toString(2));
         return finalRes;
     }
 
