@@ -287,7 +287,7 @@ public class DES {
                 finalRes = finalRes.clearBit(63-i);
             }
         }
-        System.out.println(finalRes.toString(16));
+//        System.out.println(finalRes.toString(16));
         return finalRes;
     }
 
@@ -347,7 +347,15 @@ public class DES {
                 finalRes = finalRes.clearBit(63 - i);
             }
         }
-        System.out.println(finalRes.toString(16));
+//        System.out.println(finalRes.toString(16));
         return finalRes;
+    }
+
+    public static List<BigInteger> encryptLoop(List<BigInteger> words, List<BigInteger> keys) {
+        List<BigInteger> encryptedWords = new ArrayList<>();
+        words.forEach(w -> {
+            encryptedWords.add(DES.encrypt(w, keys));
+        });
+        return encryptedWords;
     }
 }
