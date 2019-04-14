@@ -290,4 +290,64 @@ public class DES {
         System.out.println(finalRes.toString(16));
         return finalRes;
     }
+
+    public static BigInteger decrypt(BigInteger word, List<BigInteger> keys) {
+        BigInteger a = new BigInteger("0");
+        // permutacja na tablicy IP
+//        System.out.println(word.toString(2));
+        for (int i = 0; i < 64; i++) {
+            if (word.testBit(63 - (tabIp[i] - 1))) {
+                a = a.setBit(63 - i);
+            } else {
+                a = a.clearBit(63 - i);
+            }
+        }
+//        System.out.println(a.toString(2));
+        BigInteger l = new BigInteger("0");
+        BigInteger r = new BigInteger("0");
+        BigInteger pom = new BigInteger("0");
+        // dziele bit na 2 32-bitowe czesci lewa i prawa (l i r)
+        l = a.shiftRight(32);
+        pom = l.shiftLeft(32);
+        r = a.xor(pom);
+//        System.out.println();
+//        System.out.println("L: "+l.toString(16));
+//        System.out.println("R: "+r.toString(16));
+//        System.out.println("---");
+//        System.out.println(pom.toString(2));
+        for (int i = 0; i < 16; i++) {
+            BigInteger pom2 = new BigInteger("0");
+            //funkcja f i lewa czesc staje sie prawa z poprzedniej kolejki, a prawa to xor lewej czesci z wynikiem funkcji f
+            pom2 = cipherFunction(r, keys.get(15 - i));
+            pom = r;
+            r = l.xor(pom2);
+            l = pom;
+//            System.out.println();
+//            System.out.println("L: "+l.toString(16));
+//            System.out.println("R: "+r.toString(16));
+//            System.out.println("K: "+keys.get(i).toString(16));
+//            System.out.println("---");
+//            System.out.println(pom2);
+        }
+        // ostatnia permutacja powinna byc bez zamiany, wiec zamieniam lewa z prawa xD
+        BigInteger pom3 = new BigInteger("0");
+        BigInteger pom4 = new BigInteger("0");
+        pom3 = l;
+        l = r;
+        r = pom3;
+        //lacze 2 czesci
+        l = l.shiftLeft(32);
+        pom4 = l.xor(r);
+        BigInteger finalRes = new BigInteger("0");
+        //ostatnia permutacja na tablicy IP2
+        for (int i = 0; i < 64; i++) {
+            if (pom4.testBit(63 - (tabIp2[i] - 1))) {
+                finalRes = finalRes.setBit(63 - i);
+            } else {
+                finalRes = finalRes.clearBit(63 - i);
+            }
+        }
+        System.out.println(finalRes.toString(16));
+        return finalRes;
+    }
 }
