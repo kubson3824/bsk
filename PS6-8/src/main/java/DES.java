@@ -66,7 +66,6 @@ public class DES {
             {2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6 ,11}
     };
     public static int[][][] s = {s1, s2, s3, s4, s5, s6, s7, s8};
-    public static int[][][] ss = {s8, s7, s6, s5, s4, s3, s2, s1};
 
     public static List<BigInteger> generateKeys(BigInteger key){
 
@@ -88,7 +87,7 @@ public class DES {
             c = newKey.shiftRight(28);
             BigInteger pom = c.shiftLeft(28);
             d = newKey.xor(pom);
-            System.out.println(newKey.toString(2));
+//            System.out.println(newKey.toString(2));
 //            System.out.println(c.toString(2));
 //            System.out.println(d.toString(2));
 
@@ -156,10 +155,10 @@ public class DES {
                 e = e.clearBit(47-i);
             }
         }
-        System.out.println("R: "+e.toString(2));
+//        System.out.println("R: "+e.toString(2));
         //xor z kluczem
         result=e.xor(key);
-        System.out.println("XOR: "+ result.toString(2));
+//        System.out.println("XOR: "+ result.toString(2));
 //        BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
 //        int licznik=0;
 ////        System.out.println(result.toString(2));
@@ -207,7 +206,7 @@ public class DES {
 
         }
         for(int i=0;i<8;i++){
-            System.out.println(tabSout[i].toString(2));
+//            System.out.println(tabSout[i].toString(2));
         }
 
         //lacze 8 4-bitowych wyrazow w jeden wyraz
@@ -228,7 +227,7 @@ public class DES {
                 finalRes = finalRes.clearBit(31-i);
             }
         }
-        System.out.println(finalRes.toString(2));
+//        System.out.println(finalRes.toString(2));
         return finalRes;
     }
 
@@ -251,10 +250,10 @@ public class DES {
         l = a.shiftRight(32);
         pom = l.shiftLeft(32);
         r = a.xor(pom);
-        System.out.println();
-        System.out.println("L: "+l.toString(16));
-        System.out.println("R: "+r.toString(16));
-        System.out.println("---");
+//        System.out.println();
+//        System.out.println("L: "+l.toString(16));
+//        System.out.println("R: "+r.toString(16));
+//        System.out.println("---");
 //        System.out.println(pom.toString(2));
         for(int i=0; i<16;i++){
             BigInteger pom2 = new BigInteger("0");
@@ -263,11 +262,11 @@ public class DES {
             pom=r;
             r=l.xor(pom2);
             l=pom;
-            System.out.println();
-            System.out.println("L: "+l.toString(16));
-            System.out.println("R: "+r.toString(16));
-            System.out.println("K: "+keys.get(i).toString(16));
-            System.out.println("---");
+//            System.out.println();
+//            System.out.println("L: "+l.toString(16));
+//            System.out.println("R: "+r.toString(16));
+//            System.out.println("K: "+keys.get(i).toString(16));
+//            System.out.println("---");
 //            System.out.println(pom2);
         }
         // ostatnia permutacja powinna byc bez zamiany, wiec zamieniam lewa z prawa xD
