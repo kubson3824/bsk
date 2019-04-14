@@ -122,8 +122,8 @@ public class DES {
                 }
             }
 
-//            System.out.println("c: "+c.toString(2));
-//            System.out.println("d: "+d.toString(2));
+//            System.out.println("c: "+c.toString(16));
+//            System.out.println("d: "+d.toString(16));
             //lacze czesc lewa i prawa ( c i d)
             BigInteger pom2 = c.shiftLeft(28);
             BigInteger sum = pom2.add(d);
@@ -139,7 +139,7 @@ public class DES {
             }
             //dodaje klucz na liste
             keys.add(fin);
-//            System.out.println("klucz: "+fin.toString(2));
+            System.out.println("klucz: "+fin.toString(16));
         }
         return keys;
     }
@@ -157,39 +157,38 @@ public class DES {
         }
         //xor z kluczem
         result=e.xor(key);
-        BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
-        int licznik=0;
-//        System.out.println(result.toString(2));
-        //dziele wyraz na 8 6-bitowych wyrazow
-        for(int i=0;i<48;i++){
-            if(result.testBit(i)){
-                tabS[i/6] = tabS[i/6].setBit(i%6);
-            }
-        }
-//        for(int i=0;i<8;i++){
-//            System.out.println(tabS[i].toString(2));
+//        BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
+//        int licznik=0;
+////        System.out.println(result.toString(2));
+//        //dziele wyraz na 8 6-bitowych wyrazow
+//        for(int i=0;i<48;i++){
+//            if(result.testBit(i)){
+//                tabS[i/6] = tabS[i/6].setBit(i%6);
+//            }
 //        }
+////        for(int i=0;i<8;i++){
+////            System.out.println(tabS[i].toString(2));
+////        }
         BigInteger tabSout[] = new BigInteger[8];
-        //dziele 8 6-bitowych wyrazow na 8 4-bitowych wyrazow, sa w odwroconej kolejnosci bo potem latwiej je laczyc
         for(int i=0;i<8;i++){
             BigInteger row = new BigInteger("0");
             BigInteger col = new BigInteger("0");
-            if(tabS[i].testBit(0)){
+            if(result.testBit(6*i)){
                 row=row.setBit(0);
             }
-            if(tabS[i].testBit(5)){
+            if(result.testBit((6*i)+5)){
                 row=row.setBit(1);
             }
-            if(tabS[i].testBit(1)){
+            if(result.testBit((6*i)+1)){
                 col=col.setBit(0);
             }
-            if(tabS[i].testBit(2)){
+            if(result.testBit((6*i)+2)){
                 col=col.setBit(1);
             }
-            if(tabS[i].testBit(3)){
+            if(result.testBit((6*i)+3)){
                 col=col.setBit(2);
             }
-            if(tabS[i].testBit(4)){
+            if(result.testBit((6*i)+4)){
                 col=col.setBit(3);
             }
             int rowInt=row.intValue();
@@ -249,8 +248,10 @@ public class DES {
         l = a.shiftRight(32);
         pom = l.shiftLeft(32);
         r = a.xor(pom);
-//        System.out.println(l.toString(2));
-//        System.out.println(r.toString(2));
+        System.out.println();
+        System.out.println("L: "+l.toString(16));
+        System.out.println("R: "+r.toString(16));
+        System.out.println("---");
 //        System.out.println(pom.toString(2));
         for(int i=0; i<16;i++){
             BigInteger pom2 = new BigInteger("0");
@@ -259,8 +260,11 @@ public class DES {
             pom=r;
             r=l.xor(pom2);
             l=pom;
-//            System.out.println(l);
-//            System.out.println(r);
+            System.out.println();
+            System.out.println("L: "+l.toString(16));
+            System.out.println("R: "+r.toString(16));
+            System.out.println("K: "+keys.get(i).toString(16));
+            System.out.println("---");
 //            System.out.println(pom2);
         }
         // ostatnia permutacja powinna byc bez zamiany, wiec zamieniam lewa z prawa xD
