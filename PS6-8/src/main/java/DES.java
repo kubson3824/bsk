@@ -370,4 +370,30 @@ public class DES {
         });
         return result;
     }
+
+    public static List<String> decryptLoop(List<BigInteger> words, List<BigInteger> keys) {
+        List<String> result = new ArrayList<>();
+        List<BigInteger> decryptedWords = new ArrayList<>();
+        words.forEach(w -> {
+            decryptedWords.add(DES.decrypt(w, keys));
+        });
+        decryptedWords.forEach(dw -> {
+            String s = dw.toString(16);
+            result.add(s);
+        });
+        String s = result.get(result.size() - 1);
+        String edited = "";
+        int i;
+        for (i = s.length() - 1; i > 0; i--) {
+            if (s.charAt(i) == '0') {
+                edited = s.substring(0, i);
+            }
+        }
+        if (s.charAt(i) == '8') {
+            edited = s.substring(0, i);
+        }
+        result.remove(result.size() - 1);
+        result.add(edited);
+        return result;
+    }
 }
