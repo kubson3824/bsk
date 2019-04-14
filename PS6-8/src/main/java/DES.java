@@ -84,20 +84,14 @@ public class DES {
         }
 
         //dziele slowo na czesc lewa (c) i prawa (d) po 28 bitow
-        int length = newKey.bitLength();
-        if(length>28) {
-            c = newKey.shiftRight(length - 28);
-            BigInteger pom = c.shiftLeft(length - 28);
+            c = newKey.shiftRight(28);
+            BigInteger pom = c.shiftLeft(28);
             d = newKey.xor(pom);
-//            System.out.println(newKey);
 //            System.out.println(newKey.toString(2));
 //            System.out.println(c.toString(2));
 //            System.out.println(d.toString(2));
-        }else{
-            d=newKey;
-        }
 
-        //sprawdzam czy przy przesunieciu nie wychodze poza 28 bitow
+        //przesuwam bity o liczbe w tablicy shifts i sprawdzam czy przy przesunieciu nie wychodze poza 28 bitow
         for(int i=0; i<16; i++){
             c=c.shiftLeft(shifts[i]);
             d=d.shiftLeft(shifts[i]);
@@ -145,7 +139,7 @@ public class DES {
             }
             //dodaje klucz na liste
             keys.add(fin);
-//            System.out.println(fin.toString(16));
+//            System.out.println("klucz: "+fin.toString(2));
         }
         return keys;
     }
@@ -239,6 +233,7 @@ public class DES {
     public static BigInteger encrypt(BigInteger word, List<BigInteger> keys){
         BigInteger a = new BigInteger("0");
         // permutacja na tablicy IP
+//        System.out.println(word.toString(2));
         for(int i=0;i<64;i++){
             if(word.testBit(tabIp[i]-1)){
                 a=a.setBit(63-i);
@@ -251,14 +246,9 @@ public class DES {
         BigInteger r = new BigInteger("0");
         BigInteger pom = new BigInteger("0");
         // dziele bit na 2 32-bitowe czesci lewa i prawa (l i r)
-        int length = a.bitLength();
-        if(length>32) {
-            l = a.shiftRight(a.bitLength() - 32);
-            pom = l.shiftLeft(a.bitLength() - 32);
-            r = a.xor(pom);
-        }else{
-            r=a;
-        }
+        l = a.shiftRight(32);
+        pom = l.shiftLeft(32);
+        r = a.xor(pom);
 //        System.out.println(l.toString(2));
 //        System.out.println(r.toString(2));
 //        System.out.println(pom.toString(2));
@@ -276,11 +266,10 @@ public class DES {
         // ostatnia permutacja powinna byc bez zamiany, wiec zamieniam lewa z prawa xD
         BigInteger pom3 = new BigInteger("0");
         BigInteger pom4 = new BigInteger("0");
-        l=pom3;
+        pom3=l;
         l=r;
         r=pom3;
         //lacze 2 czesci
-        //ToDO trzeba sprawdzic
         l=l.shiftLeft(32);
         pom4=l.xor(r);
         BigInteger finalRes = new BigInteger("0");
