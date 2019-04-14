@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String []args){
-        BigInteger b = new BigInteger("0001001100110100010101110111100110011011101111001101111111110001",2);
-        BigInteger word = new BigInteger("123456ABCD132536",16);
+        BigInteger b = new BigInteger("133457799BBCDFF1",16);
+        BigInteger word = new BigInteger("0123456789ABCDEF",16);
         List<BigInteger> keys = DES.generateKeys(b);
         List<BigInteger> correctKeys = new ArrayList<BigInteger>();
         correctKeys.add(new BigInteger("194cd072de8c", 16));
@@ -24,7 +24,7 @@ public class Main {
         correctKeys.add(new BigInteger("251b8bc717d0", 16));
         correctKeys.add(new BigInteger("3330c5d9a36d", 16));
         correctKeys.add(new BigInteger("181c5d75c66d", 16));
-        DES.encrypt(word,keys);
+        DES.encrypt(word,correctKeys);
 //        DES.cipherFunction(new BigInteger("100101100010011000101010010101001",2), new BigInteger("427e2530e5af", 16));
     }
 }
