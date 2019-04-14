@@ -66,6 +66,7 @@ public class DES {
             {2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6 ,11}
     };
     public static int[][][] s = {s1, s2, s3, s4, s5, s6, s7, s8};
+    public static int[][][] ss = {s8, s7, s6, s5, s4, s3, s2, s1};
 
     public static List<BigInteger> generateKeys(BigInteger key){
 
@@ -139,7 +140,7 @@ public class DES {
             }
             //dodaje klucz na liste
             keys.add(fin);
-            System.out.println("klucz: "+fin.toString(16));
+//            System.out.println("klucz: "+fin.toString(16));
         }
         return keys;
     }
@@ -155,8 +156,10 @@ public class DES {
                 e = e.clearBit(47-i);
             }
         }
+        System.out.println("R: "+e.toString(2));
         //xor z kluczem
         result=e.xor(key);
+        System.out.println("XOR: "+ result.toString(2));
 //        BigInteger tabS[] = {new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0"), new BigInteger("0")};
 //        int licznik=0;
 ////        System.out.println(result.toString(2));
@@ -170,7 +173,7 @@ public class DES {
 ////            System.out.println(tabS[i].toString(2));
 ////        }
         BigInteger tabSout[] = new BigInteger[8];
-        for(int i=0;i<8;i++){
+        for(int i=7;i>=0;i--){
             BigInteger row = new BigInteger("0");
             BigInteger col = new BigInteger("0");
             if(result.testBit(6*i)){
@@ -193,7 +196,7 @@ public class DES {
             }
             int rowInt=row.intValue();
             int colInt=col.intValue();
-            String pom = Integer.toString(s[i][rowInt][colInt],10);
+            String pom = Integer.toString(s[7-i][rowInt][colInt],10);
 
 //            System.out.println(rowInt);
 //            System.out.println(colInt);
@@ -203,9 +206,9 @@ public class DES {
             tabSout[i]=new BigInteger(pom);
 
         }
-//        for(int i=0;i<8;i++){
-//            System.out.println(tabSout[i].toString(10));
-//        }
+        for(int i=0;i<8;i++){
+            System.out.println(tabSout[i].toString(2));
+        }
 
         //lacze 8 4-bitowych wyrazow w jeden wyraz
         BigInteger tabsJoined = new BigInteger("0");
@@ -225,7 +228,7 @@ public class DES {
                 finalRes = finalRes.clearBit(31-i);
             }
         }
-//        System.out.println(finalRes.toString(2));
+        System.out.println(finalRes.toString(2));
         return finalRes;
     }
 
