@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -5,9 +8,21 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
+        File inputFile = new File("PlikWej.txt");
+
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+
+        String plikBinarnyPath = bufferedReader.readLine();
+        String klucz = bufferedReader.readLine();
+        if (klucz.length() != 16) {
+            System.out.println("Klucz powinien mieć długość 64 bitów.");
+            System.exit(0);
+        }
+
         BinaryFileHandler binaryFileHandler = new BinaryFileHandler();
-        List<byte[]> plik = binaryFileHandler.readBinaryFile("test2.bin");
-        BigInteger key = new BigInteger("F33457799BBCDFF1", 16);
+        List<byte[]> plik = binaryFileHandler.readBinaryFile(plikBinarnyPath);
+        BigInteger key = new BigInteger(klucz, 16);
         List<BigInteger> keys = DES.generateKeys(key);
         List<BigInteger> words = bytesListToBigIntList(plik);
 
