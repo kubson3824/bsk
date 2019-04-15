@@ -8,8 +8,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BinaryFileHandler binaryFileHandler = new BinaryFileHandler();
         List<byte[]> plik = binaryFileHandler.readBinaryFile("edytowany2.bin");
-        BigInteger key = new BigInteger("133457799BBCDFF1", 16);
+        BigInteger key = new BigInteger("933457799BBCDFF1", 16);
         List<BigInteger> keys = DES.generateKeys(key);
+        keys.forEach(x -> System.out.println(x.toString(16)));
         List<BigInteger> words = new ArrayList<>();
         for (byte[] bytes : plik) {
             BigInteger newWord = new BigInteger(bytes);
@@ -20,7 +21,7 @@ public class Main {
         //ZAKODOWANIE
         List<BigInteger> encryptedWords = DES.encryptLoop(words, keys);
         List<byte[]> output = new ArrayList<>();
-        System.out.println("Zakodowane: ");
+//        System.out.println("Zakodowane: ");
         for (BigInteger word : encryptedWords) {
             System.out.println(word.toString(16));
             System.out.println(Arrays.toString(word.toByteArray()));
@@ -50,6 +51,14 @@ public class Main {
         List<BigInteger> decryptedWords = DES.decryptLoop(wordsToDecrypt, keys);
 //        encryptedWords.forEach(System.out::println);
         List<byte[]> decrypted_output = new ArrayList<>();
+        for (int i = 0; i < words.size(); i++) {
+            if (!decryptedWords.get(i).toString(16).equals("0")) {
+                System.out.println("Decrypted:");
+                System.out.println(decryptedWords.get(i).toString(16));
+                System.out.println("Input:");
+                System.out.println(words.get(i).toString(16));
+            }
+        }
         for (BigInteger word : decryptedWords) {
             decrypted_output.add(Arrays.copyOfRange(word.toByteArray(), 1, 9));
         }

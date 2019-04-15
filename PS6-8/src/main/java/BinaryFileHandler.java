@@ -37,6 +37,20 @@ public class BinaryFileHandler {
         return "File was saved to " + filePath;
     }
 
+    public List<byte[]> readToDecryptBinaryFile(String filePath) throws IOException {
+        List<byte[]> bytes = new ArrayList<>();
+
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        InputStream inputStream = new BufferedInputStream(fileInputStream);
+        byte[] buffer = new byte[8];
+        while (inputStream.read(buffer) != -1) {
+            bytes.add(buffer.clone());
+//            System.out.println(Arrays.toString(buffer));
+        }
+        inputStream.close();
+        return bytes;
+    }
+
     public List<byte[]> readBinaryFile(String filePath) throws IOException {
         List<byte[]> bytes = new ArrayList<>();
 
