@@ -85,11 +85,14 @@ public class DES {
 
         //dziele slowo na czesc lewa (c) i prawa (d) po 28 bitow
         c = newKey.shiftRight(28);
+        for (int i = 28; i < 56; i++) {
+            c.clearBit(i);
+        }
         BigInteger pom = c.shiftLeft(28);
         d = newKey.xor(pom);
-//            System.out.println(newKey.toString(2));
-//            System.out.println(c.toString(2));
-//            System.out.println(d.toString(2));
+//            System.out.println(newKey.toString(16));
+//            System.out.println(c.toString(16));
+//            System.out.println(d.toString(16));
 
         //przesuwam bity o liczbe w tablicy shifts i sprawdzam czy przy przesunieciu nie wychodze poza 28 bitow
         for (int i = 0; i < 16; i++) {
@@ -122,8 +125,8 @@ public class DES {
                 }
             }
 
-//            System.out.println("c: "+c.toString(2));
-//            System.out.println("d: "+d.toString(2));
+//            System.out.println("c: "+c.toString(16));
+//            System.out.println("d: "+d.toString(16));
             //lacze czesc lewa i prawa ( c i d)
             BigInteger pom2 = c.shiftLeft(28);
             BigInteger sum = pom2.add(d);
@@ -233,6 +236,7 @@ public class DES {
 
     public static BigInteger encrypt(BigInteger word, List<BigInteger> keys) {
         BigInteger a = new BigInteger("0");
+//        System.out.println("word: " + word.toString(16));
         // permutacja na tablicy IP
 //        System.out.println(word.toString(2));
         for (int i = 0; i < 64; i++) {
@@ -242,17 +246,24 @@ public class DES {
                 a = a.clearBit(63 - i);
             }
         }
-//        System.out.println(a.toString(2));
+
+//        System.out.println("a: " + a.toString(16));
         BigInteger l = new BigInteger("0");
         BigInteger r = new BigInteger("0");
         BigInteger pom = new BigInteger("0");
         // dziele bit na 2 32-bitowe czesci lewa i prawa (l i r)
         l = a.shiftRight(32);
+//        System.out.println("l: " + l.toString(16));
+        for (int i = 32; i < 64; i++) {
+            l.clearBit(i);
+        }
+//        System.out.println("l after: " + l.toString(16));
         pom = l.shiftLeft(32);
         r = a.xor(pom);
+//        System.out.println("r : " + r.toString(16));
 //        System.out.println();
-//        System.out.println("L: "+l.toString(16));
-//        System.out.println("R: "+r.toString(16));
+//        System.out.println("L: " + l.toString(16));
+//        System.out.println("R: " + r.toString(16));
 //        System.out.println("---");
 //        System.out.println(pom.toString(2));
         for (int i = 0; i < 16; i++) {
@@ -293,6 +304,7 @@ public class DES {
 
     public static BigInteger decrypt(BigInteger word, List<BigInteger> keys) {
         BigInteger a = new BigInteger("0");
+//        System.out.println("word: " + word.toString(16));
         // permutacja na tablicy IP
 //        System.out.println(word.toString(2));
         for (int i = 0; i < 64; i++) {
@@ -302,17 +314,24 @@ public class DES {
                 a = a.clearBit(63 - i);
             }
         }
+//        System.out.println("a: " + a.toString(16));
 //        System.out.println(a.toString(2));
         BigInteger l = new BigInteger("0");
         BigInteger r = new BigInteger("0");
         BigInteger pom = new BigInteger("0");
         // dziele bit na 2 32-bitowe czesci lewa i prawa (l i r)
         l = a.shiftRight(32);
+//        System.out.println("l: " + l.toString(16));
+        for (int i = 32; i < 64; i++) {
+            l.clearBit(i);
+        }
+//        System.out.println("l after: " + l.toString(16));
         pom = l.shiftLeft(32);
         r = a.xor(pom);
+//        System.out.println("r : " + r.toString(16));
 //        System.out.println();
-//        System.out.println("L: "+l.toString(16));
-//        System.out.println("R: "+r.toString(16));
+//        System.out.println("L: " + l.toString(16));
+//        System.out.println("R: " + r.toString(16));
 //        System.out.println("---");
 //        System.out.println(pom.toString(2));
         for (int i = 0; i < 16; i++) {

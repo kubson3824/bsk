@@ -1,13 +1,16 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BinaryFileHandler {
 
     public String writeEncryptedBinaryFile(List<byte[]> bytesToWrite, String filePath) throws IOException {
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
+        PrintWriter printWriter = new PrintWriter("logi.txt");
+
         for (byte[] bytes : bytesToWrite) {
-//            System.out.println(Arrays.toString(bytes));
+            printWriter.println(Arrays.toString(bytes));
             outputStream.write(bytes.clone());
         }
         outputStream.close();
@@ -19,13 +22,15 @@ public class BinaryFileHandler {
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
         for (int i = 0; i < bytesToWrite.size(); i++) {
             if (i == bytesToWrite.size() - 1) {
-                int j = 0;
-                while (j < 8) {
-                    if (bytesToWrite.get(i)[j] == -128 && bytesToWrite.get(i)[j + 1] == 0) {
+                int j = 7;
+                while (j > 0) {
+                    if (bytesToWrite.get(i)[j - 1] == -128 && bytesToWrite.get(i)[j] == 0) {
+                        for (int k = 0; k < j - 1; k++) {
+                            outputStream.write(bytesToWrite.get(i)[k]);
+                        }
                         break;
                     }
-                    outputStream.write(bytesToWrite.get(i)[j]);
-                    j++;
+                    j--;
 
                 }
             } else {
@@ -95,6 +100,7 @@ public class BinaryFileHandler {
 
     }
 
+
     static byte[] booleanToByte(Boolean[] booleans) {
         byte[] result = new byte[booleans.length / 8];
         for (int entry = 0; entry < result.length; entry++) {
@@ -106,4 +112,14 @@ public class BinaryFileHandler {
         }
         return result;
     }
+
+    static Boolean[] stringToBoolean(String readLine) {
+        Boolean[] result = new Boolean[readLine.length()];
+        for (int i = 0; i < readLine.length(); i++) {
+            result[i] = readLine.charAt(i) == '1';
+        }
+
+        return result;
+    }
+
 }
