@@ -4,11 +4,33 @@ import java.util.List;
 
 public class BinaryFileHandler {
 
-    public String writeBinaryFile(List<byte[]> bytesToWrite, String filePath) throws IOException {
+    public String writeEncryptedBinaryFile(List<byte[]> bytesToWrite, String filePath) throws IOException {
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
         for (byte[] bytes : bytesToWrite) {
 //            System.out.println(Arrays.toString(bytes));
             outputStream.write(bytes.clone());
+        }
+        outputStream.close();
+
+        return "File was saved to " + filePath;
+    }
+
+    public String writeDecryptedBinaryFile(List<byte[]> bytesToWrite, String filePath) throws IOException {
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
+        for (int i = 0; i < bytesToWrite.size(); i++) {
+            if (i == bytesToWrite.size() - 1) {
+                int j = 0;
+                while (j < 8) {
+                    if (bytesToWrite.get(i)[j] == -128 && bytesToWrite.get(i)[j + 1] == 0) {
+                        break;
+                    }
+                    outputStream.write(bytesToWrite.get(i)[j]);
+                    j++;
+
+                }
+            } else {
+                outputStream.write(bytesToWrite.get(i).clone());
+            }
         }
         outputStream.close();
 
@@ -54,12 +76,20 @@ public class BinaryFileHandler {
                 bytes.add(buffer.clone());
             }
         }
-        for (byte[] aByte : bytes) {
-//            System.out.println(Arrays.toString(aByte));
-        }
         inputStream.close();
         return bytes;
 
     }
 
+    static byte[] booleanToByte(Boolean[] booleans) {
+        byte[] result = new byte[booleans.length / 8];
+        for (int entry = 0; entry < result.length; entry++) {
+            for (int bit = 0; bit < 8; bit++) {
+                if (booleans[entry * 8 + bit]) {
+                    result[entry] |= (128 >> bit);
+                }
+            }
+        }
+        return result;
+    }
 }
